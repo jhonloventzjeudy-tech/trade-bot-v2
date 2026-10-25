@@ -1,0 +1,39 @@
+import os
+import requests
+from pocket_option_signal_bot import calculate_atr, generate_signal
+
+def test_otcharts_connection():
+    print("--- TÈS ENTEGRASYON OTCHARTS API (15s OTC) ---")
+    
+    # Sèvi sèlman ak varyab anviwònman sekirè pou kle a (Pa gen kle nan kòd la)
+    api_key = os.environ.get("OTCHARTS_API_KEY")
+    if not api_key:
+        print("[SISPANN] Kle OTCHARTS_API_KEY pa defini nan anviwònman sekirite a.")
+        print("Pa mete okenn kle dirèkteman nan kòd la pou sekirite kont.")
+        return
+
+    url = "https://otcharts.com/v1/candles"
+    headers = {"Authorization": f"Bearer {api_key}"}
+    params = {"book": "otc", "symbol": "EURUSD_otc", "tf": 15, "limit": 20}
+
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        if response.status_code != 200:
+            print(f"[ERÈ] Sèvè a retounen kòd estati: {response.status_code}")
+            return
+
+        data = response.json()
+        candles = data.get("candles", [])
+        if len(candles) < 15:
+            print("[AVÈTISMAN] Pa gen ase bouji ki tounen.")
+            return
+
+        print(f"Resevwa {len(candles)} bouji 15s avèk siksè.")
+        atr = calculate_atr(candles, period=14)
+        print(f"-> ATR(14) kalkile: {atr}")
+
+    except Exception as e:
+        print(f"[ERÈ KONEKSYON]: {e}")
+
+if __name__ == "__main__":
+    test_otcharts_connection()
