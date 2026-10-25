@@ -3,8 +3,8 @@ import time
 import requests
 
 # Konfigirasyon Telegram ak Sèvis Done
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN = "8862308867:AAGUsdKZIwXuon9CzMmNwWcsq2nD3v8IIPQ"
+TELEGRAM_CHAT_ID = "6143382278"
 
 def send_telegram_message(message):
     """Voye yon mesaj dirèkteman nan chat Telegram lan."""
@@ -143,8 +143,5 @@ def analyze_market_and_signal(symbol="BTCUSDT"):
 
 if __name__ == "__main__":
     print("Bot Siyal Telegram lanse ak siksè...")
-    # Tèks rapid pou teste koneksyon
     send_telegram_message("🤖 <b>Bot Siyal la aktive!</b> L ap kontwole mache a kounye a...")
-    
-    # Egzanp kouri yon analiz rapid
     analyze_market_and_signal("BTCUSDT")
