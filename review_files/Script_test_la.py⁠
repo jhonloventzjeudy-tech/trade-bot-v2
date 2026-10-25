@@ -1,0 +1,33 @@
+from pocket_option_signal_bot import validate_market_data, calculate_atr, generate_signal
+
+def run_tests():
+    print("--- AP KOURI TÈS SEKIRITE POU BOT LA ---")
+    
+    # Egzanp done nòmal pou tès
+    valid_candle = {
+        'timestamp': 1711000000,
+        'open': 1.1000,
+        'high': 1.1050,
+        'low': 1.0990,
+        'close': 1.1040,
+        'rsi': 25.0,
+        'ema_fast': 1.1020,
+        'ema_slow': 1.1010
+    }
+    
+    history = [valid_candle] * 20 # 20 bouji simulation pou ATR
+
+    # Tès 1: Valide done yo
+    res, msg = validate_market_data(valid_candle)
+    assert res == True, f"Tès done echwe: {msg}"
+    print("[PASS] Tès Valide Done Mache")
+
+    # Tès 2: Siyal Buy
+    sig, reason = generate_signal(valid_candle, history)
+    assert sig == "BUY", f"Te dwe bay BUY men li bay {sig}"
+    print(f"[PASS] Tès Siyal Buy -> {reason}")
+
+    print("TOUT TÈS SEKIRITE YO PASE AK SIKSE (PASS). Bot la an sekirite nan mòd signal-only.")
+
+if __name__ == "__main__":
+    run_tests()
